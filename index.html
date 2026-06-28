@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carta Surpresa</title>
+    <style>
+        /* Reset básico e fundo branco */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            width: 100vw;
+            height: 100vh;
+            background-color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            font-family: sans-serif;
+        }
+
+        /* Container principal que segura a carta e a foto */
+        .envelope-container {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* A Carta Rosa */
+        .envelope {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: #ffb6c1; /* Rosa claro */
+            border-radius: 10px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            z-index: 2; /* Garante que a carta comece na frente da foto */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.3s ease;
+        }
+
+        /* Efeito sutil de hover para indicar que é clicável */
+        .envelope-container:hover .envelope {
+            transform: scale(1.02);
+        }
+
+        /* Um detalhe para parecer um envelope (opcional, pode apagar se não gostar) */
+        .envelope::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            width: 0;
+            height: 0;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-top: 100px solid #ffa4b2; /* Rosa um pouco mais escuro para o detalhe */
+            border-radius: 10px 10px 0 0;
+            transform-origin: top;
+        }
+
+        /* A Foto PNG */
+        .photo {
+            position: absolute;
+            width: 85%; /* Um pouco menor que o envelope para caber "dentro" */
+            max-height: 250px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            
+            /* Estado inicial: escondida atrás da carta */
+            z-index: 1; 
+            opacity: 0;
+            transform: translateY(0) scale(0.9);
+            
+            /* Transição suave (Smooth) */
+            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), 
+                        opacity 0.6s ease, 
+                        z-index 0s linear 0.3s; /* Muda o z-index no meio da animação */
+        }
+
+        /* Estado após o clique (Ativo) */
+        .envelope-container.open .photo {
+            opacity: 1;
+            /* Move para cima (frente/cima da carta) e aumenta o tamanho */
+            transform: translateY(-120px) scale(1.05); 
+            z-index: 3; /* Fica na frente de tudo */
+            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), 
+                        opacity 0.6s ease, 
+                        z-index 0s linear 0.2s;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="envelope-container" onclick="toggleCarta()">
+        
+        <img src="sua-foto.png" alt="Foto Surpresa" class="photo">
+        
+        <div class="envelope"></div>
+        
+    </div>
+
+    <script>
+        function toggleCarta() {
+            // Procura o container e adiciona/remove a classe 'open' ao clicar
+            const container = document.querySelector('.envelope-container');
+            container.classList.toggle('open');
+        }
+    </script>
+
+</body>
+</html>
